@@ -1,4 +1,5 @@
-﻿using EFCoreCodeFirstTogether_START.Data;
+﻿using EFCoreCodeFirstTogether_START.Controllers;
+using EFCoreCodeFirstTogether_START.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.VisualBasic;
@@ -15,41 +16,18 @@ namespace EFCoreCodeFirstTogether_START
     {
         public void Run()
         {
-        
-            // ==================================================================
-            // 15: CREATE CREATE CREATE CREATE CREATE CREATE CREATE CREATE CREATE
-            using (var dbContext = new ApplicationDbContext(options.Options))
+
+            var buildApp = new Build();
+            var dbContext = buildApp.BuildApp();
+
+            var userChoise = MainMenu.DisplayMainMenu();
+
+            case(userChoise)
             {
-                Console.WriteLine("(C)REATE en ny person");
-                Console.WriteLine("=====================");
-
-                Console.WriteLine("Ange namn: ");
-                var nameInput = Console.ReadLine();
-
-                Console.WriteLine("Ange ålder: ");
-                var ageInput = Convert.ToInt32(Console.ReadLine());
-
-                Console.WriteLine("Ange skostorlek: ");
-                var shoeSizeInput = Convert.ToInt32(Console.ReadLine());
-
-                foreach (var county in dbContext.County)
-                {
-                    Console.WriteLine($"{county.Id} - {county.Name}");
-                }
-                Console.WriteLine("Ange Id på County");
-                var countyId = Convert.ToInt32(Console.ReadLine());
-                var countyInput = dbContext.County.First(c => c.Id == countyId);
-
-                dbContext.Person.Add(new Person
-                {
-                    Age = ageInput,
-                    Name = nameInput,
-                    ShoeSize = shoeSizeInput,
-                    County = countyInput
-                });
-                dbContext.SaveChanges();
+                case 1: 
             }
-
+        
+            
             // =====================================================================
             // READ READ READ READ READ READ READ READ READ READ READ READ READ READ
             using (var dbContext = new ApplicationDbContext(options.Options))
