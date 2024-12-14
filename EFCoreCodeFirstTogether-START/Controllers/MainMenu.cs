@@ -8,7 +8,7 @@ namespace EFCoreCodeFirstTogether_START.Controllers
 {
     public class MainMenu
     {
-        public void DisplayMenu()
+        public int DisplayMainMenu()
         {
 
             Console.WriteLine("1. Create" +
@@ -17,7 +17,10 @@ namespace EFCoreCodeFirstTogether_START.Controllers
                 "\n4.Delete" +
                 "\n5.Exit");
 
-            var choise = Console.ReadLine();
+            string choise = Console.ReadLine();
+            int userMainMenuChoise = Convert.ToInt32(choise);
+
+            return userMainMenuChoise;
            
         }
     }

@@ -10,17 +10,23 @@ namespace EFCoreCodeFirstTogether_START.Controllers
 {
     public class Delete
     {
-        public RunDelete()
+        public ApplicationDbContext _dbContext { get; set; }
+
+        public Delete(ApplicationDbContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
+
+        public void RunDelete()
         {
             // ==================================================================
             // 19: DELETE DELETE DELETE DELETE DELETE DELETE DELETE DELETE DELETE
-            using (var dbContext = new ApplicationDbContext(options.Options))
-            {
+            
                 Console.WriteLine("(D)ELETE en befintlig person");
                 Console.WriteLine("=====================");
 
                 // Vilken person ska raderas?
-                foreach (var person in dbContext.Person)
+                foreach (var person in _dbContext.Person)
                 {
                     Console.WriteLine($"Id: {person.Id}");
                     Console.WriteLine($"Namn: {person.Name}");
@@ -29,11 +35,10 @@ namespace EFCoreCodeFirstTogether_START.Controllers
 
                 Console.WriteLine("Välj Id på den Person som du vill radera");
                 var personIdToDelete = Convert.ToInt32(Console.ReadLine());
-                var personToDelete = dbContext.Person.First(p => p.Id == personIdToDelete);
-                dbContext.Person.Remove(personToDelete);
+                var personToDelete = _dbContext.Person.First(p => p.Id == personIdToDelete);
+                _dbContext.Person.Remove(personToDelete);
 
-                dbContext.SaveChanges();
-            }
+                _dbContext.SaveChanges();
         }
     }
 }

@@ -53,6 +53,32 @@ namespace EFCoreCodeFirstTogether_START
 
                 // Migrate har flyttats till dataInitializer class (BEST PRACTISE)
                 // dbContext.Database.Migrate();
+
+                // Kontrollera om databasen existerar och skapa vid behov
+                if (!dbContext.Database.CanConnect())
+                {
+                    Console.WriteLine("Databasen existerar inte. Försöker skapa...");
+                    Console.WriteLine("Tryck valfi knapp för att fortsätta");
+                    Console.ReadKey();
+                    try
+                    {
+                        dbContext.Database.EnsureCreated();
+                        Console.WriteLine("Databasen har skapats.");
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Fel vid skapande av databasen: {ex.Message}");
+                        
+                        Console.WriteLine("Tryck valfi knapp för att fortsätta");
+                        Console.ReadKey();
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Databasen, existerar och är nu ansluten.");
+                    Console.WriteLine("Tryck valfi knapp för att fortsätta");
+                    Console.ReadKey();
+                }
             }
 
             var dbContextReturned = new ApplicationDbContext(options.Options);

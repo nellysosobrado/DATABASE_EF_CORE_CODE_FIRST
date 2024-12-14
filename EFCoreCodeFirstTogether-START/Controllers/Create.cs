@@ -10,12 +10,19 @@ namespace EFCoreCodeFirstTogether_START.Controllers
 {
     public class Create
     {
+        public ApplicationDbContext _dbContext { get; set; }
+
+        public Create(ApplicationDbContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
+
         public void RunCreate()
         {
             // ==================================================================
             // 15: CREATE CREATE CREATE CREATE CREATE CREATE CREATE CREATE CREATE
-            using (var dbContext = new ApplicationDbContext(options.Options))
-            {
+            
+
                 Console.WriteLine("(C)REATE en ny person");
                 Console.WriteLine("=====================");
 
@@ -28,23 +35,23 @@ namespace EFCoreCodeFirstTogether_START.Controllers
                 Console.WriteLine("Ange skostorlek: ");
                 var shoeSizeInput = Convert.ToInt32(Console.ReadLine());
 
-                foreach (var county in dbContext.County)
+                foreach (var county in _dbContext.County)
                 {
                     Console.WriteLine($"{county.Id} - {county.Name}");
                 }
                 Console.WriteLine("Ange Id på County");
                 var countyId = Convert.ToInt32(Console.ReadLine());
-                var countyInput = dbContext.County.First(c => c.Id == countyId);
+                var countyInput = _dbContext.County.First(c => c.Id == countyId);
 
-                dbContext.Person.Add(new Person
+                _dbContext.Person.Add(new Person
                 {
                     Age = ageInput,
                     Name = nameInput,
                     ShoeSize = shoeSizeInput,
                     County = countyInput
                 });
-                dbContext.SaveChanges();
-            }
+                _dbContext.SaveChanges();
+            
 
         }
     }
