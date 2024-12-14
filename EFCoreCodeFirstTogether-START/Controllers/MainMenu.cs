@@ -10,18 +10,24 @@ namespace EFCoreCodeFirstTogether_START.Controllers
     {
         public int DisplayMainMenu()
         {
-
-            Console.WriteLine("1. Create" +
+            while (true)
+            {
+                Console.WriteLine("1. Create" +
                 "\n2.Read" +
                 "\n3.Update" +
                 "\n4.Delete" +
                 "\n5.Exit");
 
-            string choise = Console.ReadLine();
-            int userMainMenuChoise = Convert.ToInt32(choise);
+                string choise = Console.ReadLine() ?? string.Empty;
 
+                int userMainMenuChoise = Convert.ToInt32(choise);
+
+    
             return userMainMenuChoise;
-           
+
+
+            }
+
         }
     }
 }

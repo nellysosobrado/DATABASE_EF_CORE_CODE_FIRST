@@ -22,20 +22,39 @@ namespace EFCoreCodeFirstTogether_START
 
             var userChoise = new MainMenu();
 
-            var userMainMenuChoise= userChoise.DisplayMainMenu();
+            
 
-            switch(userMainMenuChoise)
+            while (true)
             {
-                case 1:
-                    var create = new Create(dbContext);
-                    create.RunCreate();
-                    break;
-                case 2:
-                    var read = new Read(dbContext);
-                    read.RunRead();
-                    break;
-
+                Console.Clear();
+                var userMainMenuChoise = userChoise.DisplayMainMenu();
+                switch (userMainMenuChoise)
+                {
+                    case 1:
+                        var create = new Create(dbContext);
+                        create.RunCreate();
+                        break;
+                    case 2:
+                        var read = new Read(dbContext);
+                        read.RunRead();
+                        break;
+                    case 3:
+                        var update = new Update(dbContext);
+                        update.RunUpdate();
+                        break;
+                    case 4: 
+                        var delete = new Delete(dbContext);
+                        delete.RunDelete();
+                        break;
+                    default:
+                        Console.WriteLine("Error. Enter a correct number! Press any key to try again");
+                        Console.ReadKey();
+                        break;
+                }
+                
             }
+
+            
            
         }
     }
