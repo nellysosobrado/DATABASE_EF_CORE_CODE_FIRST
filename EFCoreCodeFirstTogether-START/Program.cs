@@ -1,6 +1,8 @@
-﻿using EFCoreCodeFirstTogether_START.Data;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+﻿using Autofac;
+using Autofac.Extensions.DependencyInjection;
+using EFCoreCodeFirstTogether_START.Infrastructure.DI;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace EFCoreCodeFirstTogether_START
 {
@@ -8,10 +10,22 @@ namespace EFCoreCodeFirstTogether_START
     {
         static void Main(string[] args)
         {
-            // 8: Vill vill lämna 'Main' static class och jobbar i vår egen class som heter 'Application'
-            var app = new Application();
-            app.Run();
+            // Skapa och konfigurera host
+            var host = Host.CreateDefaultBuilder(args)
+                .UseServiceProviderFactory(new AutofacServiceProviderFactory()) // Använd Autofac som DI-motor
+                .ConfigureContainer<ContainerBuilder>(builder =>
+                {
+                    // Ladda registreringar från DependencyRegistrar
+                    builder.RegisterModule<DependencyRegistrar>();
+                })
+                .Build();
 
+            // Skapa ett DI-scope och hämta huvudapplikationen
+            using (var scope = host.Services.CreateScope())
+            {
+                var app = scope.ServiceProvider.GetRequiredService<Application>();
+                app.Run();
+            }
         }
     }
 }
